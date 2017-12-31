@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{%  block content %}
+
+<h1>All Product <small><a href='{% url "categories" %}'>Categories</a> </small> </h1>
+{% include "products/products.html" with object_list=object_list %}
+
+<!-- <div class="row">
+    {% for object in object_list %}
+    <div class="col-xs-4">
+        {% include "products/products.html" with object_list=object_list %}
+        {% include "products/product_thumbnail.html" with object=object price="True" %}
+    </div>
+    {% endfor %}
+</div> -->
+
+{{ now }}
+{{ user }}
+{% endblock %}
