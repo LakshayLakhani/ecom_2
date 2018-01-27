@@ -12,6 +12,7 @@ $(".item-qty").change(function(){
 
 </script>
 
+{{ object }}
 
 {% block content %}
 
@@ -33,11 +34,10 @@ $(".item-qty").change(function(){
             {{ item.item.price }}
         </td>
 	    <td>
-            <!-- <input type="number" name="qty" value="{{ item.line_total }}"/> -->
 	    	{{ item.line_item_total }}
 	    </td>
 	    <td class="text-right">
-            <a href="{{item.remove }}">X</a>
+            <a href="{{ item.remove }}">X</a>
         </td>
 	</tr>
     {% endfor %}

@@ -18,15 +18,31 @@ class CartItem(models.Model):
     def remove(self):
         return self.item.remove_from_cart()
 
-
 def cart_item_pre_save_receiver(sender, instance, *args, **kwargs):
+    print "lakshay ++++++++++++++++++++++++++++++++++++++++++++++++++"
     qty = instance.quantity
-    if qty:
+
+    print "qty +++++++++++++++++++++++++++++++++++++"
+    print qty
+
+    if qty >= 1:
         price = instance.item.get_price()
-        line_item_total = Decimal(qty)* Decimal(price)
+        line_item_total = Decimal(qty) * Decimal(price)
+        print "line item total ++++++++++++++++++++++++++++"
+        print line_item_total
+
         instance.line_item_total = line_item_total
 
 pre_save.connect(cart_item_pre_save_receiver, sender=CartItem)
+
+# def cart_item_pre_save_receiver(sender, instance, *args, **kwargs):
+#     qty = instance.quantity
+#     if qty:
+#         price = instance.item.get_price()
+#         line_item_total = Decimal(qty)* Decimal(price)
+#         instance.line_item_total = line_item_total
+
+# pre_save.connect(cart_item_pre_save_receiver, sender=CartItem)
 
 def cart_item_post_save_receiver(sender, instance, *args, **kwargs):
     instance.cart.update_subtotal()
@@ -45,7 +61,6 @@ class Cart(models.Model):
         return str(self.id)
 
     def update_subtotal(self):
-        print "updating ....."
         subtotal = 0
         items = self.cartitem_set.all()
         for item in items:

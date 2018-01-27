@@ -1,1 +1,4 @@
-ecommerce2/settings/db_password.py
+.DS_STORE
+.Python
+*.py[cod]
+

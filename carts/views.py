@@ -52,10 +52,16 @@ class CartView(SingleObjectMixin, View):
             else:
                 cart_item.quantity = qty
                 cart_item.save()
+
         if request.is_ajax():
-            # print request.GET.get("item")
-            # print "++++++++++++++ {}".format(request.GET.get("item"))
-            return JsonResponse({"deleted":delete_item,"item_added":item_added})
+            print "ajax ++++++++++++++++++++++++"
+            print request.GET.get("item")
+            return JsonResponse({"deleted":delete_item, "item_added":item_added })
+
+        # if request.is_ajax():
+        #     # print request.GET.get("item")
+        #     # print "++++++++++++++ {}".format(request.GET.get("item"))
+        #     return JsonResponse({"deleted":delete_item,"item_added":item_added})
         context = {
             "object":self.get_object()
         }
