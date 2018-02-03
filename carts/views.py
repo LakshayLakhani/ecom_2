@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.views.generic.detail import SingleObjectMixin
 
@@ -25,7 +26,6 @@ class CartView(SingleObjectMixin, View):
         if self.request.user.is_authenticated():
             cart.user = self.request.user
             cart.save()
-            # cart = Cart.objects.get(id=cart_id, user=request.user)
         return cart
 
 
@@ -52,16 +52,29 @@ class CartView(SingleObjectMixin, View):
             else:
                 cart_item.quantity = qty
                 cart_item.save()
+            if not request.is_ajax():
+                return HttpResponseRedirect(reverse("cart"))
 
         if request.is_ajax():
-            print "ajax ++++++++++++++++++++++++"
-            print request.GET.get("item")
-            return JsonResponse({"deleted":delete_item, "item_added":item_added })
+            try:
+                total = cart_item.line_item_total
+            except:
+                total = None
+            try:
+                subtotal = cart_item.cart.subtotal
+            except:
+                subtotal = None
 
-        # if request.is_ajax():
-        #     # print request.GET.get("item")
-        #     # print "++++++++++++++ {}".format(request.GET.get("item"))
-        #     return JsonResponse({"deleted":delete_item,"item_added":item_added})
+            data = {
+                "deleted":delete_item,
+                "item_added":item_added,
+                "line_total":total,
+                "subtotal":subtotal
+            }
+            return JsonResponse(data)
+            # print request.GET.get("item")
+            # return JsonResponse({"deleted":delete_item, "item_added":item_added })
+
         context = {
             "object":self.get_object()
         }

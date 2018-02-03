@@ -33,7 +33,6 @@
             success: function(data){
                 console.log("success");
                 console.log(data);
-
                 $("#jquery-message").text("Added" + data.item_added + " Deleted " + data.deleted)
             },
             error:function(response, error){
@@ -65,7 +64,7 @@
     <div class="col-sm-5">
         <form id='add-form' method='GET' action="{% url 'cart' %}">
         <p id="jquery-message" class="lead">
-            
+
         <p>
             {% if object.variation_set.count > 1 %}
                 <h3 id="price">{{ object.variation_set.first.price }}</h3>
